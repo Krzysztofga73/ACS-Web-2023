@@ -1,0 +1,14 @@
+<div>Add building</div>
+<form action="#" th:action="@{/addBuilding}" th:object="${addedBuilding}" method="post">
+
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    <input type="submit" value="Add Building">
+</form>
+<br>
+<h1>Go to:</h1>
+<table cellspacing="15">
+    <th><a href="/building">Building</a></th>
+
+</table>

@@ -1,0 +1,49 @@
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .logout-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+
+<h2>Buildings
+    <h3>
+        <a href="/logout" class="logout-link">Logout</a>
+    </h3>
+</h2>
+<div th:switch="${buildings}">
+    <h2 th:case="null">No buildings yet!</h2>
+    <div th:case="*">
+        <table>
+            <thead>
+            <tr>
+                <th><a th:href="@{/building(sortBy='id')}">ID</a></th>
+                <th><a th:href="@{/building(sortBy='name')}">Name</a></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="building : ${buildings}">
+                <td th:text="${building.id}"></td>
+                <td th:text="${building.name}"></td>
+                <td><a th:href="@{/editBuilding/{id}(id=${building.id})}">Edit</a></td>
+                <td><a th:href="@{/deleteBuilding/{id}(id=${building.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div th:text="${count}"></div>
+    <p><a href="/addBuildings">Add a new building</a></p>
+    <br>
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th><a href="/building">Buildings</a></th>
+        <th><a href="/rooms">Rooms</a></th>
+        <th><a href="/">Users</a></th>
+        <th><a href="/acs">ACS</a></th>
+        <th><a href="/result">Results</a></th>
+    </table>
+</div>

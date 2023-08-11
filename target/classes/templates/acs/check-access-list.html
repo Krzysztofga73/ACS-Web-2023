@@ -1,0 +1,60 @@
+<h2>ACS check access</h2>
+<form action="#" th:action="@{/checkAccess}" method="post" onsubmit="return validateForm()">
+    <label for="user">Choose user:</label>
+    <ul id="user" >
+        <li th:each="user : ${users}">
+            <input type="radio" name="userId" th:value="${user.id}" th:text="${user.id +' '+ user.name + ' ' + user.surname}" required/>
+        </li>
+    </ul>
+
+    <label for="room">Choose room:</label>
+    <ul id="room" >
+        <li th:each="room : ${rooms}">
+            <input type="checkbox" name="rooms" th:value="${room.id}" th:text="${room.id + ' ' + room.name}" />
+        </li>
+    </ul>
+
+    <input type="submit" value="Check">
+</form>
+
+<div th:if="${results != null and results.size() > 0}">
+ <div th:each="res : ${results}">
+        <p th:text = "${res}"></p>
+ </div>
+</div>
+
+<script>
+    function validateForm() {
+        var selectedUser = document.querySelector('input[name="userId"]:checked');
+        var selectedRooms = document.querySelectorAll('input[name="rooms"]:checked');
+
+        var errorMessage = document.getElementById('error-message');
+
+        if (!selectedUser) {
+            errorMessage.innerText = "Please choose a user.";
+            return false;
+        }
+
+        if (selectedRooms.length === 0) {
+            errorMessage.innerText = "Please choose at least one room.";
+            return false;
+        }
+
+        errorMessage.innerText = ""; // Clear error message if selections are valid.
+        return true; // Submit the form if everything is valid.
+    }
+</script>
+
+<div id="error-message" class="error-message"></div>
+
+
+    <br>
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th><a href="/rooms">Rooms</a></th>
+        <th><a href="/">Users</a></th>
+        <th><a href="/building">Building</a></th>
+        <th><a href="/acs">ACS</a></th>
+        <th><a href="/result">Results</a></th>
+    </table>
+</div>

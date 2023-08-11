@@ -1,0 +1,43 @@
+<form action="#"
+      th:action="@{/editRoom/{id}(id=${roomToEdit.id})}"
+      th:object="${roomToEdit}"
+      method="post">
+
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+    <label for="access">AccessLevel</label>
+    <select name="access" id="access" th:field="*{zone}">
+        <option value="access" hidden>select</option>
+        <option value="access"
+                th:each="accessL : ${T(com.example.accesscontrolsystem.model.AccessList).values()}"
+                th:value="${accessL}"
+                th:text="${accessL.toString()}"
+        ></option>
+    </select>
+
+    <label for="building">Building</label>
+    <!--    <input type="text" th:field="*{building.id}" id="building" placeholder="Building">-->
+    <select name="building" id="building" th:field="*{building}">
+        <option th:each="model : ${buildingsList}"
+                th:value="${model.id}"
+                th:text="${model.name}">Wybierz model
+        </option>
+    </select>
+    <br>
+    <label for="departments">Departments:</label>
+    <ul id="departments">
+        <li th:each="department : ${T(com.example.accesscontrolsystem.model.Departments).values()}">
+            <input type="checkbox" th:field="*{departments}" th:value="${department}" th:text="${department}"/>
+        </li>
+    </ul>
+
+    <input type="submit" value="Update Room">
+</form>
+<br>
+<h1>Go to:</h1>
+<table cellspacing="15">
+    <th><a href="/rooms">Rooms</a></th>
+
+</table>

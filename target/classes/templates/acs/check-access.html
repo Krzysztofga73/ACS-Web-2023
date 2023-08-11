@@ -1,0 +1,35 @@
+<h2>ACS check access</h2>
+<form action="#" th:action="@{/checkAccess}" method="post">
+    <label for="user">Choose user:</label>
+    <ul id="user" >
+        <li th:each="user : ${users}">
+            <input type="radio" name="userId" th:value="${user.id}" th:text="${user.id +' '+ user.name}"/>
+        </li>
+    </ul>
+
+    <label for="room">Choose room:</label>
+    <ul id="room" >
+        <li th:each="room : ${rooms}">
+            <input type="radio" name="roomId" th:value="${room.id}" th:text="${room.id + ' ' + room.name}"/>
+        </li>
+    </ul>
+
+    <input type="submit" value="Check">
+</form>
+
+<div th:if="${resAccess != null and selectedUser != null and selectedRoom != null}">
+    <div th:text="${resAccess}">
+
+    </div>
+</div>
+
+
+    <br>
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th><a href="/rooms">Rooms</a></th>
+        <th><a href="/">Users</a></th>
+        <th><a href="/building">Building</a></th>
+        <th><a href="/acs">ACS</a></th>
+    </table>
+</div>

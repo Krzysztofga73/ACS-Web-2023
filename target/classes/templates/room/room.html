@@ -1,0 +1,56 @@
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .logout-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+
+<h2>Rooms
+    <h3>
+        <a href="/logout" class="logout-link">Logout</a>
+    </h3>
+</h2>
+<div th:switch="${rooms}">
+    <h2 th:case="null">No rooms yet!</h2>
+    <div th:case="*">
+        <table>
+            <thead>
+            <tr>
+                <th><a th:href="@{/rooms(sortBy='id')}">ID</a></th>
+                <th><a th:href="@{/rooms(sortBy='name')}">Name</a></th>
+                <th><a th:href="@{/rooms(sortBy='buildingModel')}">Building</a></th>
+                <th><a th:href="@{/rooms(sortBy='zone')}">AccessLevel</a></th>
+                <th><a th:href="@{/rooms(sortBy='department')}">Departments</a></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="room : ${rooms}">
+                <td th:text="${room.id}"></td>
+                <td th:text="${room.name}"></td>
+                <td th:text="${room.building.getName()}"></td>
+                <td th:text="${room.getZone}"></td>
+                <td th:text="${room.getDepartments()}"></td>
+                <td><a th:href="@{/editRoom/{id}(id=${room.id})}">Edit</a></td>
+                <td><a th:href="@{/deleteRoom/{id}(id=${room.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div th:text="${count}"></div>
+    <p><a href="/addRooms">Add a new room</a></p>
+    <br>
+    <br>
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th ><a href="/building">Buildings</a></th>
+        <th><a href="/rooms">Rooms</a></th>
+        <th><a href="/">Users</a></th>
+        <th ><a href="/acs">ACS</a></th>
+        <th ><a href="/result">Results</a></th>
+    </table>
+</div>

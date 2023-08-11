@@ -1,0 +1,77 @@
+<form action="#"
+      th:action="@{/update/{id}(id=${user.id})}"
+      th:object="${user}"
+      method="post">
+
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    <p></p>
+
+    <label for="surname">Surname</label>
+    <input type="text" th:field="*{surname}" id="surname" placeholder="Surname">
+    <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+    <p></p>
+
+    <!--    menu wyboru department-->
+    <label for="department">Department</label>
+    <select name="department" id="department" th:field="*{department}">
+        <option value="department" hidden>select</option>
+        <option value="department"
+                th:each="departmentOpt : ${T(com.example.accesscontrolsystem.model.Departments).values()}"
+                th:value="${departmentOpt}"
+                th:text="${departmentOpt.displayText}"
+        ></option>
+    </select>
+    <p></p>
+    <!--    menu wyboru department-->
+
+    <!--    menu wyboru building-->
+    <label>Building:</label>
+    <div id="buildingModels">
+        <div th:each="building : ${buildingModels}">
+            <input type="checkbox"
+                   th:field="*{buildingModels}"
+                   th:value="${building.id}"
+            <label th:for="${'buildingModel-' + building.id}"
+                   th:text="${building.name}"></label>
+        </div>
+    </div>
+    <!--    menu wyboru building-->
+
+    <!--    menu wyboru access-list-->
+    <p></p>
+    <label>Access List:</label>
+    <div th:each="access : ${T(com.example.accesscontrolsystem.model.AccessList).values()}">
+        <input type="checkbox"
+               th:field="*{accessList}"
+               th:value="${access}" id="${'accessList-' + access}"/>
+        <label th:for="${'accessList-' + access}"
+               th:text="${access.name}"></label>
+    </div>
+
+    <p th:if="${#fields.hasErrors('accessList')}"
+       th:class="${#fields.hasErrors('accessList')}? error">
+        Access list was not selected</p>
+    <!--    menu wyboru access-list-->
+
+    <!--    menu wyboru position-->
+    <p></p>
+
+    <label for="positions">Position</label>
+    <select name="positions" id="positions" th:field="*{positions}">
+        <option value="position" hidden>select</option>
+        <option th:each="positionOpt : ${T(com.example.accesscontrolsystem.model.Positions).values()}"
+                th:value="${positionOpt.name()}"
+                th:text="${positionOpt.getDisplayText()}"></option>
+    </select>
+    <!--    menu wyboru position-->
+
+    <p></p>
+    <input type="submit" value="Update User">
+
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th><a href="/">Users</a></th>
+
+</form>

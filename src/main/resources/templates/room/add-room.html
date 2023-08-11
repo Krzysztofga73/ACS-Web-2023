@@ -1,0 +1,68 @@
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+
+
+<div>Add room</div>
+<form action="#" th:action="@{/addRoom}" th:object="${addedRoom}" method="post">
+
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+
+
+
+<p></p>
+    <label for="access">Security zone</label>
+    <select name="access" id="access" th:field="*{zone}" >
+        <option value="access" hidden>select</option>
+        <option value="access"
+                th:each="accessL : ${T(com.example.accesscontrolsystem.model.AccessList).values()}"
+                th:value="${accessL}"
+                th:text="${accessL.toString()}"></option>
+    </select>
+
+    <p th:if="${#fields.hasErrors('zone')}"
+       th:class="${#fields.hasErrors('zone')}? error">
+        Security zone is required</p>
+
+    <p></p>
+
+
+    <label for="building">Building</label>
+    <!--    <input type="text" th:field="*{building.id}" id="building" placeholder="Building">-->
+    <select name="building" id="building" >
+        <option value="buildingModel" hidden>select</option>
+        <option th:each="model : ${buildingsList}"
+                th:value="${model.id}"
+                th:text="${model.name}">Wybierz model
+        </option>
+    </select>
+
+    <p  th:if="${#fields.hasErrors('building')}"
+        th:class="${#fields.hasErrors('building')}? error">
+        Building is required</p>
+
+    <br>
+    <label for="departments">Departments:</label>
+    <ul id="departments">
+        <li th:each="department : ${T(com.example.accesscontrolsystem.model.Departments).values()}">
+            <input type="checkbox" th:field="*{departments}" th:value="${department}" th:text="${department}"/>
+        </li>
+    </ul>
+    <input type="submit" value="Add Room">
+</form>
+<br>
+<h1>Go to:</h1>
+<table cellspacing="15">
+    <th><a href="/rooms">Rooms</a></th>
+
+</table>
+
+

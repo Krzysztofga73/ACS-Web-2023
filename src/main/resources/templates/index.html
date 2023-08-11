@@ -1,0 +1,63 @@
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .logout-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+
+
+<div th:switch="${users}">
+    <h2 th:case="null">No users yet!</h2>
+    <div th:case="*">
+        <h2>Users
+            <h3>
+                <a href="/logout" class="logout-link">Logout</a>
+            </h3>
+        </h2>
+        <table>
+            <thead>
+            <tr>
+                <th><a th:href="@{/users(sortBy='id')}">ID</a></th>
+                <th><a th:href="@{/users(sortBy='name')}">Name</a></th>
+                <th><a th:href="@{/users(sortBy='surname')}">Surname</a></th>
+                <th><a th:href="@{/users(sortBy='buildingModels')}">Building</a></th>
+                <th><a th:href="@{/users(sortBy='department')}">Department</a></th>
+                <th><a th:href="@{/users(sortBy='accessList')}">Access List</a></th>
+                <th><a th:href="@{/users(sortBy='positions')}">Position</a></th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.surname}"></td>
+                <td th:text="${user.buildingModels}"></td>
+                <td th:text="${user.department.getDisplayText()}"></td>
+                <td th:text="${user.accessList}"></td>
+                <td th:text="${user.positions.getDisplayText()}"></td>
+                <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>
+                <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p></p>
+    <div th:text="${count}"></div>
+    <p><a href="/signup">Add a new user</a></p>
+
+    <br>
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th><a href="/building">Buildings</a></th>
+        <th><a href="/rooms">Rooms</a></th>
+        <th><a href="/">Users</a></th>
+        <th><a href="/acs">ACS</a></th>
+        <th><a href="/result">Results</a></th>
+    </table>
+</div>

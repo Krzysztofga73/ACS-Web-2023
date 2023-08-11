@@ -1,0 +1,90 @@
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+
+<form action="#" th:action="@{/adduser}" th:object="${userModel}" method="post">
+
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    <p></p>
+
+    <label for="surname">Surname</label>
+    <input type="text" th:field="*{surname}" id="surname" placeholder="Surname">
+    <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
+    <p></p>
+
+    <!--    menu wyboru department-->
+    <label for="department">Department</label>
+    <select name="department" id="department" th:field="*{department}">
+        <option value="department" hidden>select</option>
+        <option th:each="departmentOpt : ${T(com.example.accesscontrolsystem.model.Departments).values()}"
+                th:value="${departmentOpt.name()}"
+                th:text="${departmentOpt.getDisplayText()}"></option>
+    </select>
+
+    <p th:if="${#fields.hasErrors('department')}"
+       th:class="${#fields.hasErrors('department')}? error">
+        Department is required</p>
+
+    <!--    <p th:if="${#fields.hasErrors('department')}">Department is required</p>-->
+
+    <p></p>
+    <!--    menu wyboru department-->
+
+    <!--    menu wyboru building-->
+    <label>Building:</label>
+    <ul id="buildingModels">
+        <li th:each="building : ${buildingModel}">
+        </li>
+    </ul>
+    <div th:each="model, iterStat : ${buildingModels}">
+        <!-- Przekaż tylko ID budynku jako wartość checkboxa -->
+        <input type="checkbox" th:id="${'buildingModel-' + iterStat.index}"
+               th:name="${'buildingModels[' + iterStat.index + ']'}"
+               th:value="${model.id}"/>
+        <label th:for="${'buildingModel-' + iterStat.index}"
+               th:text="${model.name}"></label>
+    </div>
+    <!--    menu wyboru building-->
+
+    <!--    menu wyboru access-list-->
+    <p></p>
+    <label>Access List:</label>
+    <div th:each="access : ${T(com.example.accesscontrolsystem.model.AccessList).values()}">
+        <input type="checkbox" th:field="*{accessList}" th:value="${access}" id="${'accessList-' + access}"/>
+        <label th:for="${'accessList-' + access}" th:text="${access.name}"></label>
+    </div>
+
+    <p th:if="${#fields.hasErrors('accessList')}"
+       th:class="${#fields.hasErrors('accessList')}? error">
+        Access list was not selected</p>
+    <!--    menu wyboru access-list-->
+
+    <!--    menu wyboru position-->
+    <p></p>
+    <label for="positions">Position</label>
+    <select name="positions" id="positions" th:field="*{positions}">
+        <option value="position" hidden>select</option>
+        <option th:each="positionOpt : ${T(com.example.accesscontrolsystem.model.Positions).values()}"
+                th:value="${positionOpt.name()}"
+                th:text="${positionOpt.getDisplayText()}"></option>
+    </select>
+
+    <p th:if="${#fields.hasErrors('positions')}"
+       th:class="${#fields.hasErrors('positions')}? error">
+        Position is required</p>
+    <!--    menu wyboru position-->
+
+    <p></p>
+    <input type="submit" value="Add User">
+
+    <h1>Go to:</h1>
+    <th><a href="/">Users</a></th>
+</form>

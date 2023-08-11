@@ -1,0 +1,175 @@
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .data {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #f9f9f9;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+        }
+        .logout-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+
+        /* Add more styles for buttons, etc. as needed */
+
+    </style>
+</head>
+<body>
+<h2>Access Check Result
+    <h3>
+        <a href="/logout" class="logout-link">Logout</a>
+    </h3>
+</h2>
+
+    <h4>Options:</h4>
+
+    <table>
+    <td>
+        <form action="#" th:action="@{/deleteTenOldest}"method="get" id="delete10Oldest">
+        <input type="submit" value="Delete 10 Oldest Record">
+    </form>
+    </td>
+    <td>
+    <form action="#" th:action="@{/deleteAllRecords}" method="get" id="deleteAll">
+        <input type="button" value="Delete All Record" id="deleteAllButton">
+    </form>
+    </td>
+        <td>
+            <form action="#" th:action="@{/result/exportPDF}" method="get" id="export">
+                <input type="submit" value="Export To PDF" >
+            </form>
+        </td>
+        <td>
+            <form action="#" th:action="@{/result/exportCSV}" method="get" id="exportCSV">
+                <input type="submit" value="Export To CSV" >
+            </form>
+        </td>
+
+</table>
+<br>
+
+
+<div th:switch="${acrList}">
+    <h2 th:case="null">No access attempt!</h2>
+    <div th:case="*">
+        <table th:class="data">
+            <thead>
+            <tr>
+                <th> <a th:href="@{/result(sortBy='id')}">ID</a></th>
+                <th><a th:href="@{/result(sortBy='description')}">Description</a></th>
+                <th><a th:href="@{/result(sortBy='creationDate')}">Created Date</a></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="acr : ${acrList}">
+                <td th:text="${acr.id}"></td>
+                <td th:text="${acr.description}"></td>
+                <td th:text="${#dates.format(acr.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                <td><a th:href="@{/deleteACR/{id}(id=${acr.id})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div th:text = "${acrCount}"></div>
+<!--    <p><a href="/addBuildings">Add a new building</a></p>-->
+    <br>
+    <h1>Go to:</h1>
+    <table cellspacing="15">
+        <th ><a href="/building">Buildings</a></th>
+        <th><a href="/rooms">Rooms</a></th>
+        <th><a href="/">Users</a></th>
+        <th ><a href="/acs">ACS</a></th>
+        <th ><a href="/result">Results</a></th>
+    </table>
+</div>
+
+<div id="deleteAllModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Are you sure you want to delete all records?</p>
+        <button id="confirmDelete">Confirm</button>
+        <button id="cancelDelete">Cancel</button>
+    </div>
+</div>
+
+<!-- Existing JavaScript code... -->
+
+<script>
+    // Get the modal element
+    const modal = document.getElementById("deleteAllModal");
+
+    // Get the button that opens the modal
+    const deleteAllButton = document.getElementById("deleteAllButton");
+
+    // Get the <span> element that closes the modal
+    const closeSpan = document.getElementsByClassName("close")[0];
+
+    // Function to show the modal
+    function showModal() {
+        modal.style.display = "block";
+    }
+
+    // Function to hide the modal
+    function hideModal() {
+        modal.style.display = "none";
+    }
+
+    // Attach click event to the button to show the modal
+    deleteAllButton.onclick = showModal;
+
+    // Attach click event to the close span to hide the modal
+    closeSpan.onclick = hideModal;
+
+    // Attach click event to the cancel button to hide the modal
+    document.getElementById("cancelDelete").onclick = hideModal;
+
+    // Add functionality to the "Confirm" button (e.g., submit the form)
+    document.getElementById("confirmDelete").onclick = function () {
+        document.getElementById("deleteAll").submit();
+
+        // After the form is submitted, you may choose to hide the modal immediately
+        hideModal();
+    };
+</script>
+
+<!-- Existing JavaScript code... -->
