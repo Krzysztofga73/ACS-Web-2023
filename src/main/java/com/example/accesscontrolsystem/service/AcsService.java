@@ -43,6 +43,28 @@ public class AcsService {
         }
     }
 
+    public boolean checkAccessBoolean(Long userId, Long roomId) {   //'Access to '+ ${room.name} + ' is granted for user '+ ${selectedUser.name}+'.'"></p>
+        UserModel user = userService.getUserById(userId);
+        RoomModel room = roomService.getRoomById(roomId);
+        if (checkPositionUser(userId)) {
+            return true;
+        } else {
+            if (checkAccessList(userId, roomId) && checkIfUserHasAccessToBuilding(userId, roomId)) {
+                return true;
+            } else {
+                if (!checkAccessList(userId, roomId) && !checkIfUserHasAccessToBuilding(userId, roomId)) {
+                    return false;
+                } else if (!checkAccessList(userId, roomId) && checkIfUserHasAccessToBuilding(userId, roomId)) {
+                    return false;
+                } else if (checkAccessList(userId, roomId) && !checkIfUserHasAccessToBuilding(userId, roomId)) {
+                    return false;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+
     public boolean checkIfUserHasAccessToBuilding(Long userId, Long roomId) {
         UserModel user = userService.getUserById(userId);
         RoomModel room = roomService.getRoomById(roomId);
@@ -70,6 +92,34 @@ public class AcsService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public String entryRoom(Long userId, Long roomId) {
+        UserModel user = userService.getUserById(userId);
+        RoomModel room = roomService.getRoomById(roomId);
+        if (user.getCurrentRoom() == null) {
+            if (checkAccessBoolean(user.getId(), room.getId())) {
+                room.getUsers().add(user);
+                return "User: " + user + " entered room: " + room + ".";
+            } else if (!checkAccessBoolean(user.getId(), room.getId())) {
+                return "User: " + user + " tried to enter room: " + room + " but DO NOT have access!";
+            } else {
+                return "User " + user + " tried to enter room: " + room + ".(DON T KNOW WITH WHAT RESULT)";
+            }
+        } else {
+            return "User " + user + " must first egress room: " + user.getCurrentRoom() + ".";
+        }
+    }
+
+    public String exitRoom(Long userId, Long roomId) {
+        UserModel user = userService.getUserById(userId);
+        RoomModel room = roomService.getRoomById(roomId);
+        if (user.getCurrentRoom().equals(room)) {
+            room.getUsers().remove(user);
+            return "User: " + user + "egressed from room " + room + ".";
+        } else {
+            return "User: " + user + " tried to egress from room " + room + " but was not in the room!!!";
         }
     }
 }

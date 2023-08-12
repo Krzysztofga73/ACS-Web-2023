@@ -54,4 +54,12 @@ public class UserModel {
     @Column(name = "positions")
     private Positions positions;
 
+    @ManyToOne
+    @Column(name = "currentRoom")
+    private RoomModel currentRoom;
+
+    @Override
+    public String toString() {
+        return name + " " + surname;
+    }
 }

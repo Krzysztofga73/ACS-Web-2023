@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -43,6 +44,10 @@ public class RoomModel {
     public String toString() {
         return name;
     }
+
+    @OneToMany
+    @Column(name = "currentUsers")
+    private List<UserModel> users = new ArrayList<>();
 
 
 }
