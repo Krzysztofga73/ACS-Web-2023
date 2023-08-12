@@ -36,7 +36,6 @@ public class RoomModel {
 
     @ElementCollection
     @Enumerated(EnumType.STRING)
-
     @Column(name = "department")
     private List<Departments> departments;
 
@@ -45,8 +44,8 @@ public class RoomModel {
         return name;
     }
 
-    @OneToMany
-    @Column(name = "currentUsers")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE, mappedBy = "currentRoom")
+    @Column
     private List<UserModel> users = new ArrayList<>();
 
 

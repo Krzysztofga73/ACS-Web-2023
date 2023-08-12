@@ -1,9 +1,6 @@
 package com.example.accesscontrolsystem.controller;
 
-import com.example.accesscontrolsystem.model.AccessCheckResultModel;
-import com.example.accesscontrolsystem.model.BuildingModel;
-import com.example.accesscontrolsystem.model.RoomModel;
-import com.example.accesscontrolsystem.model.UserModel;
+import com.example.accesscontrolsystem.model.*;
 import com.example.accesscontrolsystem.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -115,6 +112,69 @@ public class AcsController {
         }
 
         return "acs/check-access-list";
+    }
+
+    @GetMapping("/acsControl")
+    public String getAcsControl(Model model) { //, @RequestParam Boolean res -> trzeba było usunąć bo nie działało get maping na acs tylko za każdym razem trzeba było podać parametr
+        List<BuildingModel> listBuildings = buildingService.getBuildingList();
+        List<RoomModel> listRoom = roomService.getRoomList();
+        List<UserModel> list = userService.getUserList();
+        model.addAttribute("buildings", listBuildings);
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("users", list);
+        return "acs/acs-control";
+    }
+
+    @PostMapping("/entryRoom")
+    public String postEntryRoom(@RequestParam Long userId, @RequestParam Long roomId, Model model){
+        List<BuildingModel> listBuildings = buildingService.getBuildingList();
+        List<RoomModel> listRoom = roomService.getRoomList();
+        List<UserModel> list = userService.getUserList();
+
+
+
+        UserModel selectedUser = userService.getUserById(userId);
+        RoomModel selectedRoom = roomService.getRoomById(roomId);
+
+        model.addAttribute("buildings", listBuildings);
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("users", list);
+
+        model.addAttribute("selectedUser", selectedUser);
+        model.addAttribute("selectedRoom", selectedRoom);
+
+        String res = acsService.entryRoom(userId, roomId);
+        EntryEgressRecord entryEgressRecord = new EntryEgressRecord();
+        entryEgressRecord.setDescription(res);
+        model.addAttribute("res", res);
+
+        return "acs/acs-control";
+    }
+
+    @PostMapping("/exitRoom")
+    public String postExitRoom(@RequestParam Long userId, @RequestParam Long roomId, Model model){
+        List<BuildingModel> listBuildings = buildingService.getBuildingList();
+        List<RoomModel> listRoom = roomService.getRoomList();
+        List<UserModel> list = userService.getUserList();
+
+
+
+        UserModel selectedUser = userService.getUserById(userId);
+        RoomModel selectedRoom = roomService.getRoomById(roomId);
+
+        model.addAttribute("buildings", listBuildings);
+        model.addAttribute("rooms", listRoom);
+        model.addAttribute("users", list);
+
+        model.addAttribute("selectedUser", selectedUser);
+        model.addAttribute("selectedRoom", selectedRoom);
+
+        String resExit = acsService.exitRoom(userId, roomId);
+        EntryEgressRecord entryEgressRecord = new EntryEgressRecord();
+        entryEgressRecord.setDescription(resExit);
+        model.addAttribute("resExit", resExit);
+
+        return "acs/acs-control";
     }
 }
 

@@ -1,0 +1,52 @@
+<h1>ACS
+    <h3>
+        <a href="/logout" class="logout-link">Logout</a>
+    </h3>
+</h1>
+<h2>-------- Access Control--------</h2>
+<h4><label for="entry">-------- Entry Room --------</label></h4>
+<form action="#" th:action="@{/entryRoom}" method="post" id="entry">
+    <label for="user">User</label>
+    <select name="userId" id="user">
+        <option value="user" hidden>select</option>
+        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.id+ ' ' + user.name + ' ' + user.surname}" ></option>
+    </select>
+
+    </select>
+    <label for="room">Room</label>
+    <select name="roomId" id="room">
+        <option value="room" hidden>select</option>
+        <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.name}"></option>
+    </select>
+    <input type="submit" value="ENTRY ROOM">
+</form>
+<div th:if="${res != null}" th:text="${res}"></div>
+
+
+<h4><label for="entry1">-------- Exit Room --------</label></h4>
+<form action="#" th:action="@{/exitRoom}" method="post" id="entry1">
+    <label for="user1">User</label>
+    <select name="userId" id="user1">
+        <option value="user" hidden>select</option>
+        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.id+ ' ' + user.name + ' ' + user.surname}" ></option>
+    </select>
+
+    </select>
+    <label for="room1">Room</label>
+    <select name="roomId" id="room1">
+        <option value="room" hidden>select</option>
+        <option th:each="room : ${rooms}" th:value="${room.id}" th:text="${room.name}"></option>
+    </select>
+    <input type="submit" value="EXIT ROOM">
+</form>
+<div th:if="${resExit != null}" th:text="${resExit}"></div>
+
+<h1>Go to:</h1>
+<table cellspacing="15">
+    <th><a href="/rooms">Rooms</a></th>
+    <th><a href="/">Users</a></th>
+    <th><a href="/building">Building</a></th>
+    <th><a href="/result">Results</a></th>
+    <th><a href="/acsControl">ACS Control</a></th>
+    <th><a href="/acs">ACS</a></th>
+</table>

@@ -100,6 +100,8 @@ public class AcsService {
         RoomModel room = roomService.getRoomById(roomId);
         if (user.getCurrentRoom() == null) {
             if (checkAccessBoolean(user.getId(), room.getId())) {
+                user.setCurrentRoom(room);
+                userService.saveEditUser(user);
                 room.getUsers().add(user);
                 return "User: " + user + " entered room: " + room + ".";
             } else if (!checkAccessBoolean(user.getId(), room.getId())) {
@@ -113,11 +115,16 @@ public class AcsService {
     }
 
     public String exitRoom(Long userId, Long roomId) {
+        /*TO DO: error when user has no room
+        Data base with records is not created
+          */
         UserModel user = userService.getUserById(userId);
         RoomModel room = roomService.getRoomById(roomId);
         if (user.getCurrentRoom().equals(room)) {
+            user.setCurrentRoom(null);
+            userService.saveEditUser(user);
             room.getUsers().remove(user);
-            return "User: " + user + "egressed from room " + room + ".";
+            return "User: " + user + " egressed from room " + room + ".";
         } else {
             return "User: " + user + " tried to egress from room " + room + " but was not in the room!!!";
         }

@@ -55,7 +55,7 @@ public class UserModel {
     private Positions positions;
 
     @ManyToOne
-    @Column(name = "currentRoom")
+    @JoinColumn(name = "currentRoom")
     private RoomModel currentRoom;
 
     @Override
