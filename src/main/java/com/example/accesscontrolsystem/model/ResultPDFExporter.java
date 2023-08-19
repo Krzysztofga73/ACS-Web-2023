@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +15,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class ResultPDFExporter {
-    private List<AccessCheckResultModel> listResults;
+    private List<RecordAbstractModel> listResults;
 
 
 
@@ -43,7 +42,7 @@ public class ResultPDFExporter {
     private void writeTableData(PdfPTable table) {
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 
-        for (AccessCheckResultModel record : listResults) {
+        for (var record : listResults) {
             table.addCell(String.valueOf(record.getId()));
             table.addCell(String.valueOf(record.getDescription()));
             table.addCell(dateFormatter.format(record.getCreationDate()));

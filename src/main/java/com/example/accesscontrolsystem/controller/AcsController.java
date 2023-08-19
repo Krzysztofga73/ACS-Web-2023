@@ -21,7 +21,7 @@ public class AcsController {
     private final RoomService roomService;
     private final AcsService acsService;
     private final AccessCheckResultService accessCheckResultService;
-
+    private final EntryEgressRecordService entryEgressRecordService;
     @GetMapping("/acs")
     public String getAcs(Model model) { //, @RequestParam Boolean res -> trzeba było usunąć bo nie działało get maping na acs tylko za każdym razem trzeba było podać parametr
         List<BuildingModel> listBuildings = buildingService.getBuildingList();
@@ -105,7 +105,7 @@ public class AcsController {
             results.add(resAccess);                                                     // -> przypisanie wyniku do listy wyświetlanej na stronie
             AccessCheckResultModel accessCheckResult = new AccessCheckResultModel();    // -> utworzenie nowej instancji wyniku dla każedej iteracji sprawdzania dostępu
             accessCheckResult.setDescription(resAccess);                                // -> ustawienie opisu
-            accessCheckResultService.addAccessCheckResult(accessCheckResult);           // -> zapisanie wyniku do bazy danych
+            accessCheckResultService.addRecord(accessCheckResult);           // -> zapisanie wyniku do bazy danych
 
             model.addAttribute("resAccess", resAccess);
             model.addAttribute("room", room);
@@ -144,8 +144,9 @@ public class AcsController {
         model.addAttribute("selectedRoom", selectedRoom);
 
         String res = acsService.entryRoom(userId, roomId);
-        EntryEgressRecord entryEgressRecord = new EntryEgressRecord();
-        entryEgressRecord.setDescription(res);
+        EntryEgressRecordModel entryEgressRecordModel = new EntryEgressRecordModel();
+        entryEgressRecordModel.setDescription(res);
+        entryEgressRecordService.addRecord(entryEgressRecordModel);
         model.addAttribute("res", res);
 
         return "acs/acs-control";
@@ -170,8 +171,9 @@ public class AcsController {
         model.addAttribute("selectedRoom", selectedRoom);
 
         String resExit = acsService.exitRoom(userId, roomId);
-        EntryEgressRecord entryEgressRecord = new EntryEgressRecord();
-        entryEgressRecord.setDescription(resExit);
+        EntryEgressRecordModel entryEgressRecordModel = new EntryEgressRecordModel();
+        entryEgressRecordModel.setDescription(resExit);
+        entryEgressRecordService.addRecord(entryEgressRecordModel);
         model.addAttribute("resExit", resExit);
 
         return "acs/acs-control";

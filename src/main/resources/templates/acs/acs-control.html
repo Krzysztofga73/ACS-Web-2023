@@ -41,12 +41,4 @@
 </form>
 <div th:if="${resExit != null}" th:text="${resExit}"></div>
 
-<h1>Go to:</h1>
-<table cellspacing="15">
-    <th><a href="/rooms">Rooms</a></th>
-    <th><a href="/">Users</a></th>
-    <th><a href="/building">Building</a></th>
-    <th><a href="/result">Results</a></th>
-    <th><a href="/acsControl">ACS Control</a></th>
-    <th><a href="/acs">ACS</a></th>
-</table>
+<div th:replace="other/nav :: navigation"></div>

@@ -54,7 +54,7 @@
     </style>
 </head>
 <body>
-<h2>Access Check Result
+<h2>Entry Exit Records
     <h3>
         <a href="/logout" class="logout-link">Logout</a>
     </h3>
@@ -64,22 +64,22 @@
 
     <table>
     <td>
-        <form action="#" th:action="@{/acr/deleteTenOldest}"method="get" id="delete10Oldest">
+        <form action="#" th:action="@{/acsRecord/deleteTenOldest}"method="get" id="delete10Oldest">
         <input type="submit" value="Delete 10 Oldest Record">
     </form>
     </td>
     <td>
-    <form action="#" th:action="@{/acr/deleteAllRecords}" method="get" id="deleteAll">
+    <form action="#" th:action="@{/acsRecord/deleteAllRecords}" method="get" id="deleteAll">
         <input type="button" value="Delete All Record" id="deleteAllButton">
     </form>
     </td>
         <td>
-            <form action="#" th:action="@{/acr/result/exportPDF}" method="get" id="export">
+            <form action="#" th:action="@{/acsRecord/result/exportPDF}" method="get" id="export">
                 <input type="submit" value="Export To PDF" >
             </form>
         </td>
         <td>
-            <form action="#" th:action="@{/acr/result/exportCSV}" method="get" id="exportCSV">
+            <form action="#" th:action="@{/acsRecord/result/exportCSV}" method="get" id="exportCSV">
                 <input type="submit" value="Export To CSV" >
             </form>
         </td>
@@ -94,9 +94,9 @@
         <table th:class="data">
             <thead>
             <tr>
-                <th> <a th:href="@{/acr(sortBy='id')}">ID</a></th>
-                <th><a th:href="@{/acr(sortBy='description')}">Description</a></th>
-                <th><a th:href="@{/acr(sortBy='creationDate')}">Created Date</a></th>
+                <th> <a th:href="@{/acsRecord(sortBy='id')}">ID</a></th>
+                <th><a th:href="@{/acsRecord(sortBy='description')}">Description</a></th>
+                <th><a th:href="@{/acsRecord(sortBy='creationDate')}">Created Date</a></th>
             </tr>
             </thead>
             <tbody>
@@ -104,7 +104,7 @@
                 <td th:text="${acr.id}"></td>
                 <td th:text="${acr.description}"></td>
                 <td th:text="${#dates.format(acr.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
-                <td><a th:href="@{/acr/deleteACR/{id}(id=${acr.id})}">Delete</a></td>
+                <td><a th:href="@{/acsRecord/deleteACR/{id}(id=${acr.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>

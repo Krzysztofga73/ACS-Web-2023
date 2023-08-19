@@ -120,7 +120,8 @@ public class AcsService {
           */
         UserModel user = userService.getUserById(userId);
         RoomModel room = roomService.getRoomById(roomId);
-        if (user.getCurrentRoom().equals(room)) {
+
+        if (user.getCurrentRoom() != null && user.getCurrentRoom().equals(room)) {
             user.setCurrentRoom(null);
             userService.saveEditUser(user);
             room.getUsers().remove(user);
@@ -128,6 +129,7 @@ public class AcsService {
         } else {
             return "User: " + user + " tried to egress from room " + room + " but was not in the room!!!";
         }
+
     }
 }
 

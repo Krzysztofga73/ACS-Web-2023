@@ -1,6 +1,7 @@
 package com.example.accesscontrolsystem.controller;
 
 import com.example.accesscontrolsystem.model.AccessCheckResultModel;
+import com.example.accesscontrolsystem.model.RecordAbstractModel;
 import com.example.accesscontrolsystem.model.ResultPDFExporter;
 import com.example.accesscontrolsystem.service.AccessCheckResultService;
 import com.lowagie.text.DocumentException;
@@ -24,7 +25,7 @@ import java.util.List;
 public class AccessCheckResultController {
     private final AccessCheckResultService accessCheckResultService;
 
-    @GetMapping("/result")
+    @GetMapping("/acr")
     public String getResult(@RequestParam(value = "sortBy", required = false) String sortBy, Model model) {
         List<AccessCheckResultModel> acrList = accessCheckResultService.getResults();
         accessCheckResultService.sortResults(acrList, sortBy);
@@ -34,32 +35,32 @@ public class AccessCheckResultController {
         return "result/result";
     }
 
-    @GetMapping("/deleteACR/{id}")
+    @GetMapping("/acr/deleteACR/{id}")
     public String deleteResult(@PathVariable("id") Long id) {
         accessCheckResultService.removeResult(id);
-        return "redirect:/result";
+        return "redirect:/acr";
     }
 
-    @GetMapping("/deleteTenOldest")
+    @GetMapping("/acr/deleteTenOldest")
     public String deleteTenOldest() {
         accessCheckResultService.removeOldestTen();
-        return "redirect:/result";
+        return "redirect:/acr";
     }
 
-    @GetMapping("/deleteAllRecords")
+    @GetMapping("/acr/deleteAllRecords")
     public String deleteAll(){
         accessCheckResultService.removeAll();
-        return "redirect:/result";
+        return "redirect:/acr";
     }
 
-    @GetMapping("result/exportPDF")
+    @GetMapping("acr/result/exportPDF")
     public void exportToPDF(HttpServletResponse response) throws DocumentException, IOException {
         accessCheckResultService.exportToPDF(response);
     }
 
-    @GetMapping("result/exportCSV")
+    @GetMapping("/acr/result/exportCSV")
     public String exportToCSV() throws  IOException {
         accessCheckResultService.exportToCSV();
-        return "redirect:/result";
+        return "redirect:/acr";
     }
 }
