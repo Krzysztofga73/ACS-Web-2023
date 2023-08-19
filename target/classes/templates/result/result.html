@@ -64,22 +64,22 @@
 
     <table>
     <td>
-        <form action="#" th:action="@{/deleteTenOldest}"method="get" id="delete10Oldest">
+        <form action="#" th:action="@{/acr/deleteTenOldest}"method="get" id="delete10Oldest">
         <input type="submit" value="Delete 10 Oldest Record">
     </form>
     </td>
     <td>
-    <form action="#" th:action="@{/deleteAllRecords}" method="get" id="deleteAll">
+    <form action="#" th:action="@{/acr/deleteAllRecords}" method="get" id="deleteAll">
         <input type="button" value="Delete All Record" id="deleteAllButton">
     </form>
     </td>
         <td>
-            <form action="#" th:action="@{/result/exportPDF}" method="get" id="export">
+            <form action="#" th:action="@{/acr/result/exportPDF}" method="get" id="export">
                 <input type="submit" value="Export To PDF" >
             </form>
         </td>
         <td>
-            <form action="#" th:action="@{/result/exportCSV}" method="get" id="exportCSV">
+            <form action="#" th:action="@{/acr/result/exportCSV}" method="get" id="exportCSV">
                 <input type="submit" value="Export To CSV" >
             </form>
         </td>
@@ -94,9 +94,9 @@
         <table th:class="data">
             <thead>
             <tr>
-                <th> <a th:href="@{/result(sortBy='id')}">ID</a></th>
-                <th><a th:href="@{/result(sortBy='description')}">Description</a></th>
-                <th><a th:href="@{/result(sortBy='creationDate')}">Created Date</a></th>
+                <th> <a th:href="@{/acr(sortBy='id')}">ID</a></th>
+                <th><a th:href="@{/acr(sortBy='description')}">Description</a></th>
+                <th><a th:href="@{/acr(sortBy='creationDate')}">Created Date</a></th>
             </tr>
             </thead>
             <tbody>
@@ -104,7 +104,7 @@
                 <td th:text="${acr.id}"></td>
                 <td th:text="${acr.description}"></td>
                 <td th:text="${#dates.format(acr.creationDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
-                <td><a th:href="@{/deleteACR/{id}(id=${acr.id})}">Delete</a></td>
+                <td><a th:href="@{/acr/deleteACR/{id}(id=${acr.id})}">Delete</a></td>
             </tr>
             </tbody>
         </table>
@@ -113,14 +113,7 @@
     <div th:text = "${acrCount}"></div>
 <!--    <p><a href="/addBuildings">Add a new building</a></p>-->
     <br>
-    <h1>Go to:</h1>
-    <table cellspacing="15">
-        <th ><a href="/building">Buildings</a></th>
-        <th><a href="/rooms">Rooms</a></th>
-        <th><a href="/">Users</a></th>
-        <th ><a href="/acs">ACS</a></th>
-        <th ><a href="/result">Results</a></th>
-    </table>
+    <div th:replace="other/nav :: navigation"></div>
 </div>
 
 <div id="deleteAllModal" class="modal">
